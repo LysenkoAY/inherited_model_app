@@ -80,50 +80,57 @@ class _InheritedModelExampleState extends State<InheritedModelExample> {
       body: LogoModel(
         backgroundColor: color,
         large: large,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Center(
-              child: const BackgroundWidget(child: LogoWidget()),
-            ),
-            Row(
+        child: Builder(
+          builder: (context) {
+            return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Rebuilt Background'),
-                        duration: Duration(milliseconds: 500),
-                      ),
-                    );
-                    setState(() {
-                      if (color == Colors.blue) {
-                        color = Colors.red;
-                      } else {
-                        color = Colors.blue;
-                      }
-                    });
-                  },
-                  child: const Text('Update background'),
+                Center(
+                  child: const BackgroundWidget(child: LogoWidget()),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Rebuilt LogoWidget'),
-                        duration: Duration(milliseconds: 500),
-                      ),
-                    );
-                    setState(() {
-                      large = !large;
-                    });
-                  },
-                  child: const Text('Resize Logo'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Rebuilt Background'),
+                            duration: Duration(milliseconds: 500),
+                          ),
+                        );
+                        setState(() {
+                          if (color == Colors.blue) {
+                            color = Colors.red;
+                          } else {
+                            color = Colors.blue;
+                          }
+                        });
+                      },
+                      child: const Text('Update background'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Rebuilt LogoWidget'),
+                            duration: Duration(milliseconds: 500),
+                          ),
+                        );
+                        setState(() {
+                          large = !large;
+                          final logoModel = LogoModel.of(context);
+                          logoModel?.changeLage(true);
+                          print(logoModel);
+                        });
+                      },
+                      child: const Text('Resize Logo'),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            );
+          }
         ),
       ),
     );
